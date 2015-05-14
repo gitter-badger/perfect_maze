@@ -32,14 +32,6 @@ class Maze(object):
       row = []
       for j in range(self.__width):
         cell = _Cell((i, j))
-        if j == 0 :
-          cell.set_borders(_Cell.WEST, True)
-        elif j == self.__width - 1 :
-          cell.set_borders(_Cell.EAST, True)
-        if i == 0 :
-          cell.set_borders(_Cell.NORTH, True)
-        elif i == self.__length - 1 :
-          cell.set_borders(_Cell.SOUTH, True)
         row.append(cell)
       self.__matrix.append(row)
 
@@ -116,13 +108,13 @@ class Maze(object):
     if roll == 1:
       start = randint(0, self.__width - 1)
       end = randint(0, self.__width - 1)
-      self.__matrix[0][start].set_borders(_Cell.NORTH, False)
-      self.__matrix[self.__length - 1][end].set_borders(_Cell.SOUTH, False)
+      self.__matrix[0][start].set_wall(_Cell.NORTH, False)
+      self.__matrix[self.__length - 1][end].set_wall(_Cell.SOUTH, False)
     else :
       start = randint(0, self.__length - 1)
       end = randint(0, self.__length - 1)
-      self.__matrix[start][0].set_borders(_Cell.WEST, False)
-      self.__matrix[end][self.__width - 1].set_borders(_Cell.EAST, False)
+      self.__matrix[start][0].set_wall(_Cell.WEST, False)
+      self.__matrix[end][self.__width - 1].set_wall(_Cell.EAST, False)
 
   def draw(self):
     """
@@ -166,7 +158,6 @@ class _Cell(object):
   def __init__(self, coordinates):
     super(_Cell, self).__init__()
     self.__walls = [1,1,1,1]
-    self.__borders = [0,0,0,0]
     if isinstance(coordinates, tuple) :
       if len(coordinates) != 2:
         raise ValueError("value of a cell must be a tuple of two coordinates")
@@ -177,15 +168,13 @@ class _Cell(object):
     self.coordinates = coordinates
     self.visited = False
 
-  def set_borders(self, direction, value):
+  def set_wall(self, direction, value):
     """
-      Updates the borders of a cell
+      Updates the wall of a cell
     """
     if value :
-      self.__borders[direction] = 1
       self.__walls[direction] = 1
     else :
-      self.__borders[direction] = 0
       self.__walls[direction] = 0
 
   def is_there_a_wall(self, direction):
