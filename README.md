@@ -3,7 +3,7 @@
 This project is an implementation of the Depth-first algorithm for maze generation.
 It is provided as a Python 3 module, with a Maze class.
 
-## Contents of Maze module :
+## Contents of Maze module
 
 - Choose the width and length when instanciating the Maze class
 - Generate a random maze with generate() method
