@@ -16,7 +16,7 @@ class Maze(object):
 
   def generate(self):
     """
-      Main method the generate the maze
+      Main method that generate the maze
     """
 
     self.__generate_matrix()
@@ -125,6 +125,9 @@ class Maze(object):
       self.__matrix[end][self.__width - 1].set_borders(_Cell.EAST, False)
 
   def draw(self):
+    """
+      Draw the maze with ascii art (or something like that ...)
+    """
     matrix = self.__matrix
     hr = " "
     for row in matrix:
@@ -151,7 +154,7 @@ class Maze(object):
 
 class _Cell(object):
   """
-    Cell of the maze implementation
+    Cell implementation needed for the maze
   """
 
   # Implementation of the four directions
