@@ -183,11 +183,7 @@ class _Cell(object):
   def knock_down_wall(self, direction):
     """
       Choose randomly a wall to knock down among all available for knock down.
-      For defensive programming, it uses any_wall_still_up to ensure that we are
-      knocking down a wall that is available.
     """
-
-
     self.__walls[direction] = 0
 
 class MazeGenerationError(Exception):
