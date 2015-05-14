@@ -32,13 +32,13 @@ class Maze(object):
       row = []
       for j in range(self.__width):
         cell = _Cell((i, j))
-        if j == 1 :
+        if j == 0 :
           cell.set_borders(_Cell.WEST, True)
-        elif j == self.__width :
+        elif j == self.__width - 1 :
           cell.set_borders(_Cell.EAST, True)
-        if i == 1 :
+        if i == 0 :
           cell.set_borders(_Cell.NORTH, True)
-        elif i == self.__length :
+        elif i == self.__length - 1 :
           cell.set_borders(_Cell.SOUTH, True)
         row.append(cell)
       self.__matrix.append(row)
@@ -77,11 +77,11 @@ class Maze(object):
   def __get_relative_direction(self, from_cell, to_cell):
     xa, ya = from_cell.coordinates
     xb, yb = to_cell.coordinates
-    direction = (xa - xb, ya - yb)
+    direction = (xb - xa, yb - ya)
 
-    if direction == (1, 0):
+    if direction == (-1, 0):
       return _Cell.NORTH
-    elif direction == (-1, 0):
+    elif direction == (1, 0):
       return _Cell.SOUTH
     elif direction == (0, 1):
       return _Cell.EAST
@@ -124,6 +124,30 @@ class Maze(object):
       self.__matrix[start][0].set_borders(_Cell.WEST, False)
       self.__matrix[end][self.__width - 1].set_borders(_Cell.EAST, False)
 
+  def draw(self):
+    matrix = self.__matrix
+    hr = " "
+    for row in matrix:
+      line = ""
+      for column in row:
+        if matrix.index(row) == 0:
+          if column.is_there_a_wall(_Cell.NORTH):
+            hr += "_ "
+          else :
+            hr += "  "
+        if column.is_there_a_wall(_Cell.WEST):
+          line += "'"
+        else :
+          line += " "
+        if column.is_there_a_wall(_Cell.SOUTH):
+          line += "_"
+        else :
+          line += " "
+      if row[len(row) - 1].is_there_a_wall(_Cell.EAST) :
+        line += " '"
+      if matrix.index(row) == 0:
+        print(hr)
+      print(line)
 
 class _Cell(object):
   """
@@ -156,18 +180,13 @@ class _Cell(object):
     """
     if value :
       self.__borders[direction] = 1
+      self.__walls[direction] = 1
     else :
       self.__borders[direction] = 0
+      self.__walls[direction] = 0
 
-  def __any_wall_still_up(self):
-    """
-      Updates the walls available for a knock down and returns how many are
-    """
-    walls = self.__walls
-    borders = self.__borders
-    walls_availables = [walls - borders for walls, borders in zip(walls, borders )]
-    self.__walls_availables = walls_availables
-    return len(self.__walls_availables)
+  def is_there_a_wall(self, direction):
+    return self.__walls[direction]
 
   def knock_down_wall(self, direction):
     """
@@ -175,8 +194,7 @@ class _Cell(object):
       For defensive programming, it uses any_wall_still_up to ensure that we are
       knocking down a wall that is available.
     """
-    if self.__any_wall_still_up() == 0:
-      raise MazeGenerationError("there aren't walls to be knocked down")
+
 
     self.__walls[direction] = 0
 
