@@ -131,7 +131,7 @@ class Maze(object):
           else :
             hr += "  "
         if column.is_there_a_wall(_Cell.WEST):
-          line += "'"
+          line += "|"
         else :
           line += " "
         if column.is_there_a_wall(_Cell.SOUTH):
@@ -139,7 +139,7 @@ class Maze(object):
         else :
           line += " "
       if row[len(row) - 1].is_there_a_wall(_Cell.EAST) :
-        line += " '"
+        line += " |"
       if matrix.index(row) == 0:
         print(hr)
       print(line)
@@ -194,6 +194,3 @@ class MazeGenerationError(Exception):
 
   def __init__(self, message):
     super(BlockSanityError, self).__init__(message)
-
-
-
