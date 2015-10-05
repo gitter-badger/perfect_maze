@@ -1,5 +1,7 @@
 # Perfect maze generator
 
+[![Join the chat at https://gitter.im/id13/perfect_maze](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/id13/perfect_maze?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This project is an implementation of the Depth-first algorithm for maze generation.
 It is provided as a Python 3 module, with a Maze class.
 
